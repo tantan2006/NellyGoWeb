@@ -1,0 +1,137 @@
+{
+  "entities": {
+    "Service": {
+      "title": "Service",
+      "description": "Hair and salon services offered by Nelly's Salon / Barbershop",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "basePrice": { "type": "number" },
+        "durationMinutes": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["id", "name", "category", "basePrice", "durationMinutes", "isActive"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Home-service booking document submitted by guest clients",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "referenceId": { "type": "string" },
+        "guestName": { "type": "string" },
+        "guestPhone": { "type": "string" },
+        "guestEmail": { "type": "string" },
+        "address": { "type": "string" },
+        "barangay": { "type": "string" },
+        "landmark": { "type": "string" },
+        "serviceIds": { "type": "array" },
+        "serviceNames": { "type": "array" },
+        "totalDurationMinutes": { "type": "number" },
+        "servicesSubtotal": { "type": "number" },
+        "travelFee": { "type": "number" },
+        "totalAmount": { "type": "number" },
+        "bookingDate": { "type": "string" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "confirmed", "in_progress", "completed", "cancelled", "no_show"]
+        },
+        "notes": { "type": "string" },
+        "cancelReason": { "type": "string" },
+        "paymentStatus": {
+          "type": "string",
+          "enum": ["unpaid", "paid", "partial"]
+        },
+        "paymentMethod": {
+          "type": "string",
+          "enum": ["cash", "gcash", "pending"]
+        },
+        "paymentReference": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "referenceId", "guestName", "guestPhone", "address", "barangay", "bookingDate", "startTime", "endTime", "status", "totalAmount"]
+    },
+    "ServiceZone": {
+      "title": "ServiceZone",
+      "description": "Operational barangays/zones within Los Baños and corresponding travel fees",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "barangay": { "type": "string" },
+        "travelFee": { "type": "number" },
+        "estimatedTransitMinutes": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "barangay", "travelFee", "isActive"]
+    },
+    "BusinessSetting": {
+      "title": "BusinessSetting",
+      "description": "Provider business hours, daily limits, buffer times, and policies",
+      "type": "object",
+      "properties": {
+        "providerName": { "type": "string" },
+        "businessName": { "type": "string" },
+        "locationBase": { "type": "string" },
+        "openingTime": { "type": "string" },
+        "closingTime": { "type": "string" },
+        "travelBufferMinutes": { "type": "number" },
+        "dailyBookingCap": { "type": "number" },
+        "restDays": { "type": "array" },
+        "blockedDates": { "type": "array" },
+        "minCancellationHours": { "type": "number" }
+      },
+      "required": ["providerName", "openingTime", "closingTime", "travelBufferMinutes", "dailyBookingCap"]
+    },
+    "ClientShadowProfile": {
+      "title": "ClientShadowProfile",
+      "description": "Dynamic shadow profile for guest clients keyed by normalized phone or email",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "totalBookings": { "type": "number" },
+        "completedBookings": { "type": "number" },
+        "cancellations": { "type": "number" },
+        "noShows": { "type": "number" },
+        "totalSpent": { "type": "number" },
+        "privateNotes": { "type": "string" },
+        "hairPreferences": { "type": "string" },
+        "isVip": { "type": "boolean" },
+        "lastBookingDate": { "type": "string" }
+      },
+      "required": ["id", "phone", "name"]
+    }
+  },
+  "firestore": {
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Public catalog of salon and barbershop services"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "All guest bookings managed by provider Generisa"
+    },
+    "/serviceZones/{zoneId}": {
+      "schema": { "$ref": "#/entities/ServiceZone" },
+      "description": "Configured coverage zones and travel fees in Los Baños"
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/BusinessSetting" },
+      "description": "Provider business configuration and operating parameters"
+    },
+    "/clientShadowProfiles/{profileId}": {
+      "schema": { "$ref": "#/entities/ClientShadowProfile" },
+      "description": "Shadow CRM client notes and histories managed by provider"
+    }
+  }
+}

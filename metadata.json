@@ -1,0 +1,7 @@
+{
+  "name": "NellyGo — Home-Service Salon & Barbershop Booking",
+  "description": "Frictionless guest checkout home-service salon & barbershop booking platform for Nelly's Salon / Barbershop in Los Baños, Laguna.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
